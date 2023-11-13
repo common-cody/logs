@@ -64,12 +64,16 @@ func newLogging(service string) *zap.SugaredLogger {
 		errorOutputPaths = []string{"stderr"}
 	}
 
+	encoding := os.Getenv("LOG_ENCODING")
+	if len(encoding) == 0 {
+		encoding = "json"
+	}
 	config := zap.Config{
 		Level:             atom,
 		DisableCaller:     false,
 		Development:       false,
 		DisableStacktrace: true,
-		Encoding:          "json",
+		Encoding:          encoding,
 		EncoderConfig:     encoderConfig,
 		OutputPaths:       outputPaths,
 		ErrorOutputPaths:  errorOutputPaths,
